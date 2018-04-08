@@ -12,6 +12,9 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "lodash": "^4.17.5",
+    "moment": "^2.22.0",
+    "oauth": "^0.9.15",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.11",

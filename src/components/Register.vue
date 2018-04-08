@@ -4,7 +4,7 @@
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4>
           <v-card class="elevation-12">
-            <v-toolbar dark color="primary">
+            <v-toolbar dark color="accent">
               <v-toolbar-title>Register</v-toolbar-title>
               <v-spacer></v-spacer>
             </v-toolbar>
@@ -16,7 +16,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary">Register</v-btn>
+              <v-btn color="accent">Register</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>

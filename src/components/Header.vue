@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar>
+  <v-toolbar dark color="primary">
     <v-toolbar-title class="title">
       <v-btn @click="goHome" flat large>Article App</v-btn>
     </v-toolbar-title>
