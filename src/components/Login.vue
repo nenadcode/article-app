@@ -16,7 +16,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" @click.native="login">Login</v-btn>
+              <v-btn color="primary">Login</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -40,8 +40,6 @@ export default {
     }
   },
   created () {
-    this.token = localStorage['advis-token']
-    this.$emit('check-token', this.token)
     this.articles()
   },
   methods: {
@@ -49,31 +47,6 @@ export default {
       axios.get('api/v1/article')
         .then(res => {
           console.log(res)
-        })
-    },
-    login () {
-      axios({
-        method: 'post',
-        url: 'oauth2/token',
-        data: {
-          grant_type: 'Bearer',
-          email: this.user.email,
-          password: this.user.password,
-        },
-        headers: {
-          'Accept': 'application/x-www-form-urlencoded',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      })
-        .then(({ data: { token } }) => {
-          localStorage['advis-token'] = token
-          console.log('token: ', data)
-          this.error = false
-          this.$emit('login', { token })
-          this.$router.push({ name: 'Article' })
-        })
-        .catch(err => {
-          this.error = err
         })
     }
   }
