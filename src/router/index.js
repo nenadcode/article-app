@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Article from '@/components/Article'
+import Articles from '@/components/Articles'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 
@@ -10,8 +10,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Article',
-      component: Article,
+      name: 'Articles',
+      component: Articles,
       meta: { auth: true }
     }, {
       path: '/login',

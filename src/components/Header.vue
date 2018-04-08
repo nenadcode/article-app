@@ -17,7 +17,7 @@ export default {
   name: 'Header',
   methods: {
     goHome () {
-      this.$router.push({ name: 'Article' })
+      this.$router.push({ name: 'Articles' })
     },
     goLogin () {
       this.$router.push({ name: 'Login' })

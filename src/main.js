@@ -7,6 +7,7 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import axios from 'axios'
 import config from '@/config'
+import store from './store/index.js'
 
 axios.defaults.baseURL = config.api
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -30,6 +31,7 @@ Vue.use(Vuetify, {
 new Vue({
   el: '#app',
   router,
+  store,
   Vuetify,
   components: { App },
   template: '<App/>'
