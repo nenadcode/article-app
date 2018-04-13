@@ -13,9 +13,10 @@ const actions = {
   getAllArticles ({ commit }) {
     return articlesApi.getArticles()
       .then(articles => {
-        console.log('articles: ', articles)
         commit(types.RECEIVE_ARTICLES, { articles: articles.data })
-        return articles
+      })
+      .catch(error => {
+        console.log(error)
       })
   }
 }
