@@ -1,1 +1,6 @@
 export const RECEIVE_ARTICLES = 'articles/RECEIVE_ARTICLES'
+export const RECEIVE_COMMENTS = 'articles/RECEIVE_COMMENTS'
+export const SET_FILTERED_ARTICLES = 'articles/SET_FILTERED_ARTICLES'
+export const SET_TOTAL_PAGES = 'articles/SET_TOTAL_PAGES'
+export const SET_CURRENT_PAGE = 'articles/SET_CURRENT_PAGE'
+export const SET_RESULTS_PER_PAGE = 'articles/SET_RESULTS_PER_PAGE'

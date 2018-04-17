@@ -6167,6 +6167,10 @@ vue@^2.5.2:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
 
+vuejs-paginate@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/vuejs-paginate/-/vuejs-paginate-1.9.0.tgz#b71c9383e821b1645c604fde76fa2e1ef8ae2ddc"
+
 vuetify@^1.0.11:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.0.11.tgz#c6b262f3b4d062e810d62a08481991e4c090e116"
