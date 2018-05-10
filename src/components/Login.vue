@@ -33,6 +33,7 @@ export default {
   data () {
     return {
       user: {
+        grant_type: 'Bearer',
         email: '',
         password: ''
       },
@@ -52,22 +53,14 @@ export default {
         })
     },
     login () {
-      axios({
-        method: 'post',
-        url: 'oauth2/token',
-        data: {
-          grant_type: 'Bearer',
-          email: this.user.email,
-          password: this.user.password,
-        },
-        headers: {
-          'Accept': 'application/x-www-form-urlencoded',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      })
+      axios
+        .post('oauth2/token', this.user, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        })
         .then(({ data: { token } }) => {
           localStorage['advis-token'] = token
-          console.log('token: ', data)
           this.error = false
           this.$emit('login', { token })
           this.$router.push({ name: 'Article' })
@@ -75,6 +68,13 @@ export default {
         .catch(err => {
           this.error = err
         })
+
+        /*
+        headers: {
+          'Accept': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+        */
     }
   }
 }
