@@ -40,11 +40,14 @@ const actions = {
     commit(types.SET_CURRENT_PAGE, page)
     commit(types.SET_FILTERED_ARTICLES, articles)
   },
-  getAllComments ({ commit }, { id }) {
+  getComments ({ commit }, { id }) {
     return articlesApi.getComments({ id })
       .then(comments => {
         commit(types.RECEIVE_COMMENTS, { comments: comments.data })
       })
+  },
+  resetComments ({ commit }) {
+    commit(types.RESET_COMMENTS)
   }
 }
 
@@ -66,6 +69,9 @@ const mutations = {
   },
   [types.RECEIVE_COMMENTS] (state, { comments }) {
     state.comments = comments
+  },
+  [types.RESET_COMMENTS] (state) {
+    state.comments = {}
   }
 }
 

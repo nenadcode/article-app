@@ -72,7 +72,7 @@ export default {
   methods: {
     ...mapActions([
       'getAllArticles',
-      'getAllComments',
+      'getComments',
       'getFilteredArticles'
     ]),
     setArticles (res) {

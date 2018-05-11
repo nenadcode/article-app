@@ -19,4 +19,11 @@ export default {
 </script>
 
 <style>
+  .btn.btn--flat,
+  .btn.btn--icon,
+  .btn.btn--flat.btn--large,
+  .btn.primary,
+  .btn.accent {
+    padding: 0;
+  }
 </style>

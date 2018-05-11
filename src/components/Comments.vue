@@ -5,9 +5,16 @@
     </v-btn>
 
     <div v-if="commentsActive">
-      <p v-for="comment in allComments" :key="comment.id">
+      text komentara
+    </div>
+
+    <div>
+      <p v-for="comment in getComments" :key="comment.id">
         {{ comment.body }}
       </p>
+    </div>
+    <div>
+      <p>No Comments</p>
     </div>
 
   </div>
@@ -19,6 +26,9 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Comments',
   props: ['articleId'],
+  created () {
+    this.getComments({ id: this.articleId })
+  },
   data () {
     return {
       commentsActive: false
@@ -31,11 +41,10 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getAllComments'
+      'getComments'
     ]),
     showComments () {
       this.commentsActive = !this.commentsActive
-      this.getAllComments({ id: this.articleId })
     }
   }
 }

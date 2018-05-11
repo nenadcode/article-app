@@ -1,7 +1,7 @@
 <template>
   <v-toolbar dark color="primary">
     <v-toolbar-title class="title">
-      <v-btn @click="goHome" flat large>Article App</v-btn>
+      <v-btn @click="goHome" flat large>All Articles</v-btn>
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
