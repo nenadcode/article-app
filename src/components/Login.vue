@@ -43,23 +43,14 @@ export default {
   created () {
     this.token = localStorage['advis-token']
     this.$emit('check-token', this.token)
-    this.articles()
   },
   methods: {
-    articles () {
-      axios.get('api/v1/article')
-        .then(res => {
-          console.log(res)
-        })
-    },
     login () {
+      let querystring = require('querystring')
+
       axios
-        .post('oauth2/token', this.user, {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
-        })
-        .then(({ data: { token } }) => {
+        .post('oauth2/token', querystring.stringify(this.user))
+        .then(({ data: token }) => {
           localStorage['advis-token'] = token
           this.error = false
           this.$emit('login', { token })
@@ -68,13 +59,6 @@ export default {
         .catch(err => {
           this.error = err
         })
-
-        /*
-        headers: {
-          'Accept': 'application/x-www-form-urlencoded',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-        */
     }
   }
 }

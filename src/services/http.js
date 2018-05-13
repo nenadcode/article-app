@@ -1,3 +1,5 @@
+'use strict'
+
 import Vue from 'vue'
 import axios from 'axios'
 import config from '../config'
@@ -40,3 +42,5 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+// export const http = axios

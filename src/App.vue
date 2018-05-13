@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app id="inspire">
-      <app-header></app-header>
+      <app-header :token="token"></app-header>
       <router-view @login="onLogin" @check-token="checkToken"></router-view>
     </v-app>
   </div>
@@ -42,6 +42,12 @@ export default {
     },
     onLogin (token) {
       this.token = token
+    }
+  },
+  computed: {
+    year () { return new Date().getUTCFullYear() },
+    loggedIn () {
+      return !!this.token
     }
   },
   components: {
