@@ -9,6 +9,18 @@
 
 <script>
 import Header from './components/Header.vue'
+import Oauth from 'oauth'
+import moment from 'moment'
+
+function isTokenExpired (token) {
+  if (!token) {
+    return true
+  }
+
+  const decoded = Oauth(token)
+  const now = moment().add(1, 'minute').valueOf() / 1000
+  return decoded.exp < now
+}
 
 export default {
   name: 'App',
@@ -45,11 +57,4 @@ export default {
 </script>
 
 <style>
-  .btn.btn--flat,
-  .btn.btn--icon,
-  .btn.btn--flat.btn--large,
-  .btn.primary,
-  .btn.accent {
-    padding: 0;
-  }
 </style>

@@ -2,8 +2,8 @@
 
 import Vue from 'vue'
 import axios from 'axios'
+import config from '../config'
 
-export const http = axios
 axios.defaults.baseURL = config.api
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded'
