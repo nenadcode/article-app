@@ -33,6 +33,7 @@ export default {
   data () {
     return {
       user: {
+        grant_type: 'Bearer',
         email: '',
         password: ''
       },
@@ -40,13 +41,23 @@ export default {
     }
   },
   created () {
-    this.articles()
+    this.token = localStorage['advis-token']
+    this.$emit('check-token', this.token)
   },
   methods: {
-    articles () {
-      axios.get('api/v1/article')
-        .then(res => {
-          console.log(res)
+    login () {
+      let querystring = require('querystring')
+
+      axios
+        .post('oauth2/token', querystring.stringify(this.user))
+        .then(({ data: token }) => {
+          localStorage['advis-token'] = token
+          this.error = false
+          this.$emit('login', { token })
+          this.$router.push({ name: 'Article' })
+        })
+        .catch(err => {
+          this.error = err
         })
     }
   }

@@ -5,5 +5,5 @@ export default {
 }
 
 function onLogin() {
-  return http.post('oauth2/token')
+  return http.post('oauth2/token', user)
 }
