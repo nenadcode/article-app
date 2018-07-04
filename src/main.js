@@ -1,5 +1,3 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -7,26 +5,39 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import axios from 'axios'
 import config from '@/config'
-import store from './store/index.js'
+import { store } from './store/index.js'
 import VeeValidate, { Validator } from 'vee-validate'
 import en from 'vee-validate/dist/locale/en'
+import AlertCmp from './components/shared/Alert.vue'
 
 axios.defaults.baseURL = config.api
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded'
 
-Vue.config.productionTip = false
-
-router.beforeEach((to, from, next) => {
+axios.interceptors.request.use(config => {
   let token = localStorage['advis-token']
-  if (to.meta.auth && !token) {
-    next({ name: 'Login' })
-  } else if (!to.meta.auth && token) {
-    next({ name: 'Article' })
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`
+  }
+
+  return config
+}, error => {
+  Promise.reject(error)
+})
+
+axios.interceptors.response.use(r => {
+  return r
+}, error => {
+  if (error.response.status === 401) {
+    localStorage['advis-token'] = ''
+    router.push({ name: 'login' })
+    throw error.response
   } else {
-    next()
+    throw error.response
   }
 })
+
+Vue.config.productionTip = false
 
 const Veeconfig = {
   locale: 'en'
@@ -57,6 +68,8 @@ Vue.use(Vuetify, {
     warning: '#FFC107'
   }
 })
+
+Vue.component('app-alert', AlertCmp)
 
 /* eslint-disable no-new */
 new Vue({

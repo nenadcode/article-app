@@ -5,34 +5,30 @@ const state = {
   articles: [],
   filteredArticles: [],
   pagination: {
-    totalPages: null,
+    totalPages: 1,
     currentPage: 1,
     resultsPerPage: 10
   },
-  comments: {}
+  comments: []
 }
 
 const getters = {
   allArticles: state => state.articles,
   filteredArticles: state => state.filteredArticles,
-  allComments: state => state.comments
+  allComments: state => state.comments,
+  pagination: state => state.pagination
 }
 
 const actions = {
-  getAllArticles ({ commit, dispatch }) {
+  getAllArticles ({ dispatch }) {
     return articlesApi.getArticles()
       .then(articles => {
         dispatch('setPaginationData', articles.data.length)
-        commit(types.RECEIVE_ARTICLES, { articles: articles.data })
-        dispatch('getFilteredArticles', 1)
+        dispatch('setArticleComments', articles)
       })
       .catch(error => {
         console.log(error)
       })
-  },
-  setPaginationData ({ commit, state }, page) {
-    let totalPages = page / state.pagination.resultsPerPage
-    commit(types.SET_TOTAL_PAGES, totalPages)
   },
   getFilteredArticles ({ commit, state }, page) {
     let allArticles = state.articles.map(article => article)
@@ -40,10 +36,28 @@ const actions = {
     commit(types.SET_CURRENT_PAGE, page)
     commit(types.SET_FILTERED_ARTICLES, articles)
   },
-  getComments ({ commit }, { id }) {
+  setPaginationData ({ commit, state }, page) {
+    let totalPages = page / state.pagination.resultsPerPage
+    commit(types.SET_TOTAL_PAGES, Math.ceil(totalPages))
+  },
+  getComments (context, { id }) {
     return articlesApi.getComments({ id })
-      .then(comments => {
-        commit(types.RECEIVE_COMMENTS, { comments: comments.data })
+      .then(data => {
+        return data
+      })
+  },
+  setArticleComments ({ commit, dispatch }, payload) {
+    let articles = payload.data
+    let promise = articles.map(article => {
+      dispatch('getComments', { id: article.id })
+        .then(res => {
+          article.comments = res
+        })
+    })
+    Promise.resolve([promise])
+      .then(() => {
+        commit(types.RECEIVE_ARTICLES, { articles: articles })
+        dispatch('getFilteredArticles', 1)
       })
   },
   resetComments ({ commit }) {
@@ -67,8 +81,8 @@ const mutations = {
   [types.SET_RESULTS_PER_PAGE] (state, page) {
     state.pagination.resultsPerPage = page
   },
-  [types.RECEIVE_COMMENTS] (state, { comments }) {
-    state.comments = comments
+  [types.RECEIVE_COMMENTS] (state, payload) {
+    state.comments = payload
   },
   [types.RESET_COMMENTS] (state) {
     state.comments = {}

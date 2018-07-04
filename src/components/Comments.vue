@@ -1,21 +1,26 @@
 <template>
   <div>
-    <v-btn icon class="red--text" @click="showComments">
+    <!-- <v-btn icon class="red--text" @click="showComments">
       <v-icon medium>fa-comment</v-icon>
     </v-btn>
 
     <div v-if="commentsActive">
       text komentara
-    </div>
 
-    <div>
-      <p v-for="comment in getComments" :key="comment.id">
+      <p v-for="comment in allComments" :key="comment.id">
         {{ comment.body }}
       </p>
     </div>
-    <div>
+
+    <div v-else>
       <p>No Comments</p>
-    </div>
+    </div> -->
+
+    <h2>Comments</h2>
+
+    <p v-for="comment in allComments" :key="comment.id">
+      {{ comment.body }}
+    </p>
 
   </div>
 </template>

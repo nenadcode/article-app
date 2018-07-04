@@ -1,28 +1,45 @@
 <template>
-  <v-content>
-    <v-container fluid fill-height>
-      <v-layout align-center justify-center>
-        <v-flex xs12 sm8 md4>
-          <v-card class="elevation-12">
-            <v-toolbar dark color="primary">
-              <v-toolbar-title>Login</v-toolbar-title>
-              <v-spacer></v-spacer>
-            </v-toolbar>
-            <v-card-text>
-              <v-form>
-                <v-text-field prepend-icon="email" name="login" label="Email" type="text" v-model="user.email"></v-text-field>
-                <v-text-field prepend-icon="lock" name="password" label="Password" id="password" type="password" v-model="user.password"></v-text-field>
-              </v-form>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="primary">Login</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </v-content>
+  <v-container class="mt-5 pt-5">
+    <v-layout row v-if="error">
+      <v-flex xs12 sm6 offset-sm3>
+        <app-alert @dismissed="onDismissed" :text="error"></app-alert>
+      </v-flex>
+    </v-layout>
+    <v-layout row>
+      <v-flex xs12 sm6 offset-sm3>
+        <v-card class="elevation-12">
+          <v-toolbar dark color="primary">
+            <v-toolbar-title>Login</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <v-card-text>
+            <form>
+              <v-text-field
+                prepend-icon="email"
+                name="login"
+                label="Email"
+                type="text"
+                v-model="user.email"></v-text-field>
+              <v-text-field
+                prepend-icon="lock"
+                name="password"
+                label="Password"
+                id="password"
+                type="password"
+                v-model="user.password"></v-text-field>
+            </form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              @click.native="login"
+              :disabled="!formIsValid">Login</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -44,8 +61,17 @@ export default {
     this.token = localStorage['advis-token']
     this.$emit('check-token', this.token)
   },
+  computed: {
+    formIsValid () {
+      return this.user.email !== '' &&
+        this.user.password !== ''
+    }
+  },
   methods: {
     login () {
+      if (!this.formIsValid) {
+        return
+      }
       let querystring = require('querystring')
 
       axios
@@ -54,11 +80,15 @@ export default {
           localStorage['advis-token'] = token
           this.error = false
           this.$emit('login', { token })
-          this.$router.push({ name: 'Article' })
+          this.$router.push({ name: 'articles' })
         })
         .catch(err => {
-          this.error = err
+          console.log(err)
+          this.error = err.statusText
         })
+    },
+    onDismissed () {
+      console.log('Dismissed Alert')
     }
   }
 }

@@ -1,14 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-// import loginModule from './modules/login'
+import userModule from './modules/user'
 import articlesModule from './modules/articles'
+import alertModule from './modules/alert'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+export const store = new Vuex.Store({
   modules: {
-    // loginModule,
-    articlesModule
+    userModule,
+    articlesModule,
+    alertModule
   }
 })
