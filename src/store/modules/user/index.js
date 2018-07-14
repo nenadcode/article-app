@@ -2,7 +2,7 @@ import userApi from '../../../api/user'
 import * as types from './mutation-types'
 
 const state = {
-  user: {}
+  user: null
 }
 
 const getters = {
@@ -11,26 +11,34 @@ const getters = {
 
 const actions = {
   getUser ({ commit }) {
+    commit('setLoading', true)
     return userApi.getUserAccount()
       .then(user => {
-        console.log(user)
+        commit('setLoading', false)
         commit(types.RECEIVE_USER_ACCOUNT, { user: user.data })
       })
-      .catch((err) => {
-        return err
+      .catch((error) => {
+        commit('setLoading', false)
+        commit('setError', error)
       })
   },
-  editUserAccount ({ commit }) {
-    return userApi.editUserAccount()
+  editUserAccount ({ commit }, { editedUser }) {
+    commit('setLoading', true)
+    return userApi.editUserAccount(editedUser)
       .then(editedUser => {
+        commit('setLoading', false)
         return editedUser
       })
-      .catch((err) => {
-        return err
+      .catch(error => {
+        commit('setLoading', false)
+        commit('setError', error)
       })
   },
-  changeUserAccount ({ commit }, changed) {
+  changeAccountInfo ({ commit }, changed) {
     commit(types.CHANGE_USER_ACCOUNT, changed)
+  },
+  resetUserInfo ({ commit }) {
+    commit(types.RESET_USER_INFO)
   }
 }
 
@@ -43,6 +51,9 @@ const mutations = {
       return
     }
     state.userInfo[property] = value
+  },
+  [types.RESET_USER_INFO] (state) {
+    state.user = null
   }
 }
 

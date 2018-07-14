@@ -1,6 +1,13 @@
 <template>
-  <v-container fluid fill-height>
-    <v-layout align-center row>
+  <v-container class="mt-5 pt-5">
+    <v-layout row v-if="error">
+      <v-flex xs12 sm6 offset-sm3>
+        <v-alert
+          :value="true"
+          type="error">{{ error }}</v-alert>
+      </v-flex>
+    </v-layout>
+    <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <v-card class="elevation-12">
           <v-toolbar dark color="accent">
@@ -8,16 +15,53 @@
             <v-spacer></v-spacer>
           </v-toolbar>
           <v-card-text>
-            <v-form>
-              <v-text-field class="input-field" v-validate="'required: true'" name="First Name" label="First Name" type="text" v-model="newUser.firstName"></v-text-field>
-              <span v-show="errors.has('First Name')" class="errorMessage">{{ errors.first('First Name') }}</span>
-              <v-text-field class="input-field" v-validate="'required: true'" name="Last Name" label="Last Name" type="text" v-model="newUser.lastName"></v-text-field>
-              <span v-show="errors.has('Last Name')" class="errorMessage">{{ errors.first('Last Name') }}</span>
-              <v-text-field class="input-field" v-validate="'required|email'" name="email" label="E-mail" type="text" v-model="newUser.email"></v-text-field>
-              <span v-show="errors.has('email')" class="errorMessage">{{ errors.first('email') }}</span>
-              <v-text-field class="input-field" v-validate="{ required: true, regex: /(?=^.{6,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$/ }" name="Password" label="Password" id="password" type="password" v-model="newUser.pass"></v-text-field>
-              <span v-show="errors.has('Password')" class="errorMessage">{{ errors.first('Password') }}</span>
-            </v-form>
+            <form>
+              <v-text-field
+                class="input-field"
+                v-validate="'required: true'"
+                name="First Name"
+                label="First Name"
+                type="text"
+                v-model="newUser.firstName"></v-text-field>
+              <span
+                v-show="errors.has('First Name')"
+                class="errorMessage">{{ errors.first('First Name') }}</span>
+
+              <v-text-field
+                class="input-field"
+                v-validate="'required: true'"
+                name="Last Name"
+                label="Last Name"
+                type="text"
+                v-model="newUser.lastName"></v-text-field>
+              <span
+                v-show="errors.has('Last Name')"
+                class="errorMessage">{{ errors.first('Last Name') }}</span>
+
+              <v-text-field
+                class="input-field"
+                v-validate="'required|email'"
+                name="email"
+                label="E-mail"
+                type="text"
+                v-model="newUser.email"></v-text-field>
+              <span
+                v-show="errors.has('email')"
+                class="errorMessage">{{ errors.first('email') }}</span>
+
+              <v-text-field
+                class="input-field"
+                v-validate="{ required: true, regex: /(?=^.{6,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$/ }"
+                name="Password"
+                label="Password"
+                id="password"
+                type="password"
+                v-model="newUser.pass"></v-text-field>
+              <span
+                id="password-error"
+                v-show="errors.has('Password')"
+                class="errorMessage">{{ errors.first('Password') }}</span>
+            </form>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -72,7 +116,7 @@ export default {
             this.$router.push({ name: 'login' })
           })
           .catch(err => {
-            this.error = err
+            this.error = err.data
           })
       }
     }
@@ -83,8 +127,5 @@ export default {
 <style scoped>
   .input-group .input-group__details {
     min-height: 10px;
-  }
-  .errorMessage {
-    color: #ff0000;
   }
 </style>

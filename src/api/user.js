@@ -9,6 +9,6 @@ function getUserAccount () {
   return http.get('api/v1/user')
 }
 
-function editUserAccount () {
-  return http.put('api/v1/user')
+function editUserAccount (editedUser) {
+  return http.put('api/v1/user', editedUser)
 }

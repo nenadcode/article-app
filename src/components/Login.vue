@@ -1,6 +1,13 @@
 <template>
-  <v-container fluid fill-height>
-    <v-layout align-center row>
+  <v-container class="mt-5 pt-5">
+    <v-layout row v-if="error">
+      <v-flex xs12 sm6 offset-sm3>
+        <v-alert
+        :value="true"
+        type="error">{{ error }}</v-alert>
+      </v-flex>
+    </v-layout>
+    <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <v-card class="elevation-12">
           <v-toolbar dark color="primary">
@@ -39,6 +46,7 @@
 
 <script>
 import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Login',
@@ -57,12 +65,18 @@ export default {
     this.$emit('check-token', this.token)
   },
   computed: {
+    ...mapGetters([
+      'userInfo'
+    ]),
     formIsValid () {
       return this.user.email !== '' &&
         this.user.password !== ''
     }
   },
   methods: {
+    ...mapActions([
+      'getUser'
+    ]),
     login () {
       if (!this.formIsValid) {
         return
@@ -76,9 +90,10 @@ export default {
           this.error = false
           this.$emit('login', { token })
           this.$router.push({ name: 'articles' })
+          this.getUser()
         })
         .catch(err => {
-          this.error = err
+          this.error = err.statusText
         })
     }
   }

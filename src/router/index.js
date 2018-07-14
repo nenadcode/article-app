@@ -13,8 +13,7 @@ export default new Router({
     {
       path: '/',
       name: 'articles',
-      component: Articles,
-      meta: { auth: true }
+      component: Articles
     }, {
       path: '/login',
       name: 'login',
