@@ -28,28 +28,11 @@
           <v-card-text>
             <p class="subheading">{{ article.body }}</p>
           </v-card-text>
-          <!-- <v-card-actions>
-            <v-icon @click="commentDialog = !commentDialog" hover>mode_comment</v-icon>
-          </v-card-actions> -->
           <template>
-            <div v-if="article && article.comment && article.comment.length">
-                <v-card-title>
-                  <p class="title">Commments</p>
-                </v-card-title>
-                <v-card-text
-                  v-for="comment in article.comment" :key="comment.id">
-                  <p>{{ comment.body }}</p>
-                  <div class="comment-info">
-                    <p>By: {{ comment.posterFirstName }} {{ comment.posterLastName }}</p>
-                    <p>E-mail: {{ comment.posterEmail }}</p>
-                  </div>
-                </v-card-text>
-            </div>
-            <div v-else>
-              <v-card-text>
-                <p class="subheding">No Comments for this article</p>
-              </v-card-text>
-            </div>
+            <app-comments
+              :article="article"
+              @createNewComment="createNewCommentChild"
+              @deleteComment="deleteCommentChild"></app-comments>
           </template>
         </v-card>
       </div>
@@ -65,9 +48,7 @@
           :prev-class="'prev-item'"
           :prev-link-class="'prev-link-item'"
           :next-class="'next-item'"
-          :next-link-class="'next-link-item'"
-          >
-        </paginate>
+          :next-link-class="'next-link-item'"></paginate>
       </div>
     </v-flex>
   </v-layout>
@@ -78,6 +59,7 @@ import Vue from 'vue'
 import Paginate from 'vuejs-paginate'
 import { mapActions, mapGetters } from 'vuex'
 import editArticleDialog from './EditArticleDialog.vue'
+import Comments from './Comments.vue'
 
 Vue.component('paginate', Paginate)
 
@@ -88,7 +70,6 @@ export default {
       pagesNumber: 0,
       currentPage: 1,
       filteredArticlesData: null
-      /* commentDialog: true */
     }
   },
   created () {
@@ -110,11 +91,13 @@ export default {
     ...mapActions([
       'getUser',
       'getAllArticles',
-      'getComments',
       'getFilteredArticles',
-      'setArticleComments',
+      'editArticle',
       'deleteArticle',
-      'editArticle'
+      'setArticleComments',
+      'getComments',
+      'postComment',
+      'deleteComment'
     ]),
     setArticles (res) {
       const self = this
@@ -128,30 +111,44 @@ export default {
       }
       this.getFilteredArticles(page)
     },
+    editedArticle (data) {
+      this.editArticle({ editedArticle: data })
+        .then((res) => {
+        })
+        .catch(err => {
+          this.error = err
+        })
+    },
     onDeleteArticle (id) {
       this.deleteArticle({ id })
         .then(() => {
           this.getAllArticles()
         })
     },
-    editedArticle (data) {
-      this.editArticle({ editedArticle: data })
-        .then((res) => {
-          console.log(res)
-          // this.getAllArticles()
+    createNewCommentChild (id, commentData) {
+      this.postComment({ id, commentData })
+        .then(() => {
+          this.getAllArticles()
         })
         .catch(err => {
           this.error = err
         })
+    },
+    deleteCommentChild (aid, cid) {
+      this.deleteComment({ aid, cid })
+        .then(() => {
+          console.log('Liverpool')
+        })
     }
-  },
-  components: {
-    appEditArticleDialog: editArticleDialog
   },
   watch: {
     'filteredArticles' (filteredArticles) {
       this.filteredArticlesData = filteredArticles
     }
+  },
+  components: {
+    appEditArticleDialog: editArticleDialog,
+    appComments: Comments
   }
 }
 </script>
@@ -168,11 +165,5 @@ export default {
 
   .article-title {
     justify-content: center;
-  }
-
-  .comment-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
   }
 </style>

@@ -60,14 +60,10 @@ export default {
   props: ['article'],
   data () {
     return {
-      editedTitle: '',
-      editedBody: '',
+      editedTitle: this.article.title,
+      editedBody: this.article.body,
       editDialog: false
     }
-  },
-  mounted () {
-    this.editedTitle = this.article.title
-    this.editedBody = this.article.body
   },
   computed: {
     ...mapGetters([

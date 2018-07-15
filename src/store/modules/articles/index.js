@@ -1,4 +1,5 @@
 import articlesApi from '../../../api/articles'
+import commentsApi from '../../../api/comments'
 import * as types from './mutation-types'
 
 const state = {
@@ -98,7 +99,7 @@ const actions = {
       })
   },
   getComments (context, { id }) {
-    return articlesApi.getComments({ id })
+    return commentsApi.getComments({ id })
       .then(data => {
         return data
       })
@@ -110,6 +111,33 @@ const actions = {
           commit(types.SET_COMMENT, {id: article.id, comment: res.data})
         })
     })
+  },
+  postComment ({ commit }, payload) {
+    let newComment = payload
+    let dataComment = newComment.commentData
+    commit('setLoading', true)
+    return commentsApi.postComment({ id: newComment.id }, dataComment)
+      .then(commentData => {
+        commit('setLoading', false)
+        return commentData
+      })
+      .catch(error => {
+        commit('setLoading', false)
+        commit('setError', error)
+      })
+  },
+  deleteComment ({ commit }, payload) {
+    let articleId = payload.aid
+    let commentId = payload.cid
+    commit('setLoading', true)
+    return commentsApi.deleteComment({ articleId, commentId })
+      .then(() => {
+        commit('setLoading', false)
+      })
+      .catch(error => {
+        commit('setLoading', false)
+        commit('setError', error)
+      })
   },
   resetComments ({ commit }) {
     commit(types.RESET_COMMENTS)

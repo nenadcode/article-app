@@ -4,8 +4,7 @@ export default {
   getArticles,
   postArticle,
   editArticle,
-  deleteArticle,
-  getComments
+  deleteArticle
 }
 
 function getArticles () {
@@ -23,9 +22,4 @@ function editArticle (editedArticle) {
 function deleteArticle ({ id }) {
   const url = `/api/v1/article/${id}`
   return http.delete(url)
-}
-
-function getComments ({ id }) {
-  const url = `/api/v1/article/${id}/comment`
-  return http.get(url)
 }

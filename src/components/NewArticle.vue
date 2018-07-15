@@ -39,8 +39,7 @@
                 v-validate="'max:155'"
                 v-model="newArticle.body"
                 required
-                :counter="155"
-                height="200px"></v-textarea>
+                :counter="155"></v-textarea>
               <span
                 v-show="errors.has('Description')"
                 class="errorMessage">{{ errors.first('Description') }}</span>
@@ -72,12 +71,14 @@ export default {
       newArticle: {
         body: '',
         title: ''
-      }
+      },
+      error: false
     }
   },
   computed: {
     ...mapGetters([
       'userInfo',
+      'storeError',
       'loading'
     ]),
     formIsValid () {
@@ -93,8 +94,9 @@ export default {
     createNewArticle () {
       this.postArticle({ article: {
         id: this.userInfo.id,
-        posterLastName: this.userInfo.firstName,
-        posterEmail: this.userInfo.lastName,
+        posterFirstName: this.userInfo.firstName,
+        posterLastName: this.userInfo.lastName,
+        posterEmail: this.userInfo.email,
         posterId: 0,
         title: this.newArticle.title,
         body: this.newArticle.body,

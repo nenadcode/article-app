@@ -23,7 +23,6 @@ const mutations = {
   },
   clearError (state) {
     state.storeError = null
-    console.log('Liverpool')
   }
 }
 
