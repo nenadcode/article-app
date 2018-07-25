@@ -1,13 +1,11 @@
-/* import * as types from './mutation-types'
- */
 const state = {
   loading: false,
-  error: null
+  storeError: null
 }
 
 const getters = {
   loading: state => state.loading,
-  error: state => state.error
+  storeError: state => state.storeError
 }
 
 const actions = {
@@ -21,10 +19,10 @@ const mutations = {
     state.loading = payload
   },
   setError (state, payload) {
-    state.error = payload
+    state.storeError = payload
   },
   clearError (state) {
-    state.error = null
+    state.storeError = null
   }
 }
 

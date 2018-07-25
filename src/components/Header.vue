@@ -1,24 +1,13 @@
 <template>
   <div>
     <v-navigation-drawer fixed v-model="sideNav">
-      <v-toolbar flat>
-        <v-list>
-          <v-list-tile>
-            <v-list-tile-title class="title">
-              <router-link :to="{ name: 'articles' }">
-                <v-btn flat large>
-                  <v-icon left>home</v-icon>
-                  All Articles</v-btn>
-              </router-link>
-            </v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-toolbar>
-      <v-list>
+      <router-link :to="{ name: 'articles' }">
+        <v-btn flat large class="btn-drawer">
+          <v-icon left>home</v-icon>
+          All Articles</v-btn>
+      </router-link>
       <v-divider></v-divider>
       <v-list>
-
-      </v-list>
         <v-list-tile
           v-for="item in menuItems"
           :key="item.title"
@@ -45,7 +34,7 @@
         class="hidden-sm-and-up"></v-toolbar-side-icon>
       <v-toolbar-title class="title">
         <router-link :to="{ name: 'articles' }">
-          <v-btn flat large>
+          <v-btn flat large class="btn-title">
             <v-icon left>home</v-icon>
             All Articles</v-btn>
         </router-link>
@@ -76,6 +65,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'Header',
   props: ['token'],
@@ -85,12 +76,19 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'resetUserInfo'
+    ]),
     logout () {
       localStorage.removeItem('advis-token')
+      this.resetUserInfo()
       this.$router.push({ name: 'login' })
     }
   },
   computed: {
+    ...mapGetters([
+      'userInfo'
+    ]),
     loggedIn () {
       return !!this.token
     },
@@ -112,5 +110,23 @@ export default {
 </script>
 
 <style scoped>
+  .btn-drawer.v-btn {
+    width: 300px;
+    justify-content: flex-start;
+    margin: 10px 0;
+    padding: 0;
+  }
 
+  .v-divider {
+    margin: 0;
+  }
+
+  .title {
+    margin-left: 0;
+  }
+
+  .btn-title {
+    margin: 0 6px;
+    padding: 0 16px;
+  }
 </style>

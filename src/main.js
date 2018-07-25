@@ -10,6 +10,8 @@ import VeeValidate, { Validator } from 'vee-validate'
 import en from 'vee-validate/dist/locale/en'
 import AlertCmp from './components/shared/Alert.vue'
 
+Vue.component('app-alert', AlertCmp)
+
 axios.defaults.baseURL = config.api
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -19,7 +21,6 @@ axios.interceptors.request.use(config => {
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`
   }
-
   return config
 }, error => {
   Promise.reject(error)
@@ -68,8 +69,6 @@ Vue.use(Vuetify, {
     warning: '#FFC107'
   }
 })
-
-Vue.component('app-alert', AlertCmp)
 
 /* eslint-disable no-new */
 new Vue({

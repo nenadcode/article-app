@@ -1,113 +1,80 @@
 <template>
-  <div>
-    <v-container fluid fill-height>
-      <v-layout row wrap v-if="loading">
-        <v-flex xs12 class="text-xs-center">
-          <v-progress-circular
-            indeterminate
-            class="primary--text"
-            :width="7"
-            :size="70"></v-progress-circular>
-        </v-flex>
-      </v-layout>
-      <v-layout align-center justify-center v-else>
-        <v-flex xs12 sm8 md4>
-          <v-card class="elevation-12">
-            <v-toolbar dark color="primary">
-              <v-toolbar-title>Account</v-toolbar-title>
+  <v-container fluid fill-height>
+    <v-layout row wrap mt-5 pt-5 v-if="loading">
+      <v-flex xs12 class="text-xs-center">
+        <v-progress-circular
+          indeterminate
+          class="primary--text"
+          :width="7"
+          :size="70"></v-progress-circular>
+      </v-flex>
+    </v-layout>
+    <v-layout align-center justify-center v-else>
+      <v-flex xs10 sm6 md5 lg4>
+        <v-card class="elevation-12">
+          <v-toolbar dark color="primary">
+            <v-toolbar-title>Account Details</v-toolbar-title>
+            <template>
               <v-spacer></v-spacer>
-            </v-toolbar>
-            <v-card-text>
-              <form>
-                <v-text-field class="input-field" v-validate="'required: true'" name="First Name" label="First Name" type="text" v-model="firstName" @input="inputUserName"></v-text-field>
-                <span v-show="errors.has('First Name')" class="errorMessage">{{ errors.first('First Name') }}</span>
-
-                <v-text-field class="input-field" v-validate="'required: true'" name="Last Name" label="Last Name" type="text" v-model="lastName"></v-text-field>
-                <span v-show="errors.has('Last Name')" class="errorMessage">{{ errors.first('Last Name') }}</span>
-
-                <v-text-field class="input-field" v-validate="'required: true'" name="Email" label="Email" type="text" v-model="email"></v-text-field>
-                <span v-show="errors.has('email')" class="errorMessage">{{ errors.first('email') }}</span>
-              </form>
+              <app-edit-account-dialog
+                :userInfo="userInfo"
+                @changeAccountInfo="changeAccountInfoChild"
+                @save-edited-account="saveEditedAccountChild"></app-edit-account-dialog>
+            </template>
+          </v-toolbar>
+          <v-card-text>
+            <v-card-text v-if="userInfo">
+              <p>First Name: {{ userInfo.firstName }}</p>
+              <p>Last Name: {{ userInfo.lastName }}</p>
+              <p>E-mail: {{ userInfo.email }}</p>
             </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="primary">Edit</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </div>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
 
 import { mapGetters, mapActions } from 'vuex'
-// import Vue from 'vue'
+import editAccountDialog from './EditAccountDialog.vue'
 
 export default {
   name: 'Account',
-  created () {
-    this.getUser()
-  },
   data () {
     return {
-      id: this.userInfo.id,
-      firstName: this.userInfo.firstName,
-      lastName: this.userInfo.lastName,
-      email: this.userInfo.email,
       errorMessage: false
     }
   },
   computed: {
     ...mapGetters([
-      'userInfo'
-    ]),
-    loading () {
-      return this.$store.getters.loading
-    }
+      'userInfo',
+      'loading'
+    ])
   },
   methods: {
     ...mapActions([
       'getUser',
-      'changeUserAccount',
+      'changeAccountInfo',
       'editUserAccount'
     ]),
-    setErrorMessage (message) {
-      this.errorMessage = message
+    changeAccountInfoChild (changed) {
+      this.changeAccountInfo(changed)
     },
-    inputUserName (firstName) {
-      this.changeUserAccount('firstName', firstName)
-    }, /*
-    inputUserLastName (lastName) {
-      this.changeUserAccount('lastName', lastName)
-    },
-    inputUserEmail (email) {
-      this.changeUserAccount('email', email)
-    }, */
-    changeUserAccount (property, value) {
-      return { property, value }
+    saveEditedAccountChild () {
+      this.editUserAccount()
+        .then(() => {
+          this.getUser()
+        })
     }
-    /* editUser () {
-      const editedUser = this.userEdit
-      this.editUserAccount({ userEdit })
-        .then(() => Vue.router.push({
-          name: 'articles'
-        }))
-        .catch(err => {
-          this.setErrorMessage(err)
-        })
-    } */
-    /* editUser () {
-      const editedUser = this.userInfo
-      this.editUserAccount({ editedUser })
-        .then(() => Vue.router.push({
-          name: 'articles'
-        }))
-        .catch(err => {
-          this.setErrorMessage(err)
-        })
-    } */
+  },
+  components: {
+    appEditAccountDialog: editAccountDialog
   }
 }
 </script>
+
+<style>
+
+</style>

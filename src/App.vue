@@ -11,6 +11,7 @@
 import Header from './components/Header.vue'
 import Oauth from 'oauth'
 import moment from 'moment'
+import { mapGetters, mapActions } from 'vuex'
 
 function isTokenExpired (token) {
   if (!token) {
@@ -37,18 +38,34 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'getUser',
+      'resetUserInfo'
+    ]),
     checkToken () {
       this.token = localStorage['advis-token']
     },
     onLogin (token) {
       this.token = token
+    },
+    userLoggedIn () {
+      if (this.loggedIn === true) {
+        this.getUser()
+      } else if (this.loggedIn === false) {
+        this.resetUserInfo()
+      }
     }
   },
   computed: {
-    year () { return new Date().getUTCFullYear() },
+    ...mapGetters([
+      'userInfo'
+    ]),
     loggedIn () {
       return !!this.token
     }
+  },
+  mounted () {
+    this.userLoggedIn()
   },
   components: {
     appHeader: Header
@@ -96,7 +113,12 @@ export default {
   .btn .icon--left {
     margin-right: 10px;
   }
+
   .primary {
     border-color: none;
+  }
+
+  .errorMessage {
+    color: #ff0000;
   }
 </style>
