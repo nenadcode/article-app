@@ -10,6 +10,5 @@ function getUserAccount () {
 }
 
 function editUserAccount (editedUser) {
-  debugger
   return http.put('api/v1/user', editedUser)
 }

@@ -5,7 +5,7 @@
     </v-btn>
     <v-card>
       <v-toolbar dark color="primary">
-        <v-toolbar-title class="headline">Edit article</v-toolbar-title>
+        <v-toolbar-title class="headline">Edit comment</v-toolbar-title>
       </v-toolbar>
       <v-container>
         <v-layout align-center justify-center>
@@ -56,12 +56,12 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'EditArticleDetailsDialog',
-  props: ['article'],
+  name: 'ArticlesCommentsEditDialog',
+  props: ['article', 'comment'],
   data () {
     return {
-      editedTitle: this.article.title,
-      editedBody: this.article.body,
+      editedTitle: this.comment.title,
+      editedBody: this.comment.body,
       editDialog: false
     }
   },
@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'editArticle',
+      'editComment',
       'getUser',
       'getAllArticles'
     ]),
@@ -86,22 +86,24 @@ export default {
         return
       }
       let data = {
-        id: this.article.id,
-        posterFirstName: this.article.posterFirstName,
-        posterLastName: this.article.posterLastName,
-        posterEmail: this.article.posterEmail,
-        posterId: this.article.posterId,
+        id: this.comment.id,
+        posterFirstName: this.comment.posterFirstName,
+        posterLastName: this.comment.posterLastName,
+        posterEmail: this.comment.posterEmail,
+        posterId: this.comment.posterId,
         title: this.editedTitle,
         body: this.editedBody,
         datetime: new Date()
       }
-      this.$emit('newarticle', data)
+      let id = this.article.id
+      this.editDialog = true
+      this.$emit('new-comment', data, id)
     }
   },
   watch: {
-    'article' (article) {
-      this.editedTitle = this.article.title
-      this.editedBody = this.article.body
+    'comment' (comment) {
+      this.editedTitle = this.comment.title
+      this.editedBody = this.comment.body
     }
   }
 }

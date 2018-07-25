@@ -23,7 +23,6 @@ const actions = {
       })
   },
   editUserAccount ({ commit }, editedUser) {
-    debugger
     commit('setLoading', true)
     return userApi.editUserAccount(editedUser)
       .then(editedUser => {

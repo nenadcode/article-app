@@ -68,7 +68,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'EditAccountDialog',
+  name: 'AccountEditDialog',
   props: ['userInfo'],
   data () {
     return {

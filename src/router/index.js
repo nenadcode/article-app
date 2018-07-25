@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Articles from '@/components/Articles'
+import Articles from '@/components/articles/ArticlesContainer'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
-import Account from '@/components/Account'
-import NewArticle from '@/components/NewArticle'
+import Account from '@/components/account/AccountContainer'
+import NewArticle from '@/components/articles/ArticlesNewArticle'
 
 Vue.use(Router)
 

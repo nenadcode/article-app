@@ -16,9 +16,9 @@
             <h2 class="headline">{{ article.title }}</h2>
             <template v-if="userInfo !== null && article.posterId === userInfo.id">
               <v-spacer></v-spacer>
-              <app-edit-article-dialog
+              <app-articles-edit-dialog
                 :article="article"
-                @newarticle="editedArticle"
+                @new-article="editedArticle"
               />
               <v-btn fab accent small @click="onDeleteArticle(article.id, index)">
                 <v-icon medium>delete_forever</v-icon>
@@ -29,10 +29,11 @@
             <p class="subheading">{{ article.body }}</p>
           </v-card-text>
           <template>
-            <app-comments
+            <app-articles-comments
               :article="article"
-              @createNewComment="createNewCommentChild"
-              @editComment="editCommentChild"></app-comments>
+              @create-new-comment="createNewCommentChild"
+              @edit-comment="editCommentChild"
+            />
           </template>
         </v-card>
       </div>
@@ -58,13 +59,13 @@
 import Vue from 'vue'
 import Paginate from 'vuejs-paginate'
 import { mapActions, mapGetters } from 'vuex'
-import editArticleDialog from './EditArticleDialog.vue'
-import Comments from './Comments.vue'
+import ArticlesEditDialog from './ArticlesEditDialog.vue'
+import ArticlesComments from './ArticlesComments.vue'
 
 Vue.component('paginate', Paginate)
 
 export default {
-  name: 'Articles',
+  name: 'ArticlesContainer',
   data () {
     return {
       pagesNumber: 0,
@@ -146,8 +147,8 @@ export default {
     }
   },
   components: {
-    appEditArticleDialog: editArticleDialog,
-    appComments: Comments
+    appArticlesEditDialog: ArticlesEditDialog,
+    appArticlesComments: ArticlesComments
   }
 }
 </script>

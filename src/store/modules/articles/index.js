@@ -78,12 +78,10 @@ const actions = {
       })
   },
   newEditedArticle ({ commit, dispatch }, payload) {
-    console.log('newEditedArticle: ', payload)
     let newArticle = payload
     let comment = dispatch('getComments', {id: payload.id})
     Promise.resolve(comment)
       .then(response => {
-        console.log('response: ', response)
         newArticle.comment = response.data
         commit(types.SET_EDITED_ARTICLE, newArticle)
       })
@@ -115,7 +113,6 @@ const actions = {
   },
   postComment ({ commit }, payload) {
     commit('setLoading', true)
-    console.log(payload)
     let newComment = payload
     let dataComment = newComment.commentData
     return commentsApi.postComment({ id: newComment.id }, dataComment)
@@ -134,7 +131,6 @@ const actions = {
     let dataEditedComment = newEditedComment.editedComment
     return commentsApi.editComment({ id: newEditedComment.id }, dataEditedComment)
       .then(() => {
-        console.log('editedComment: ', dataEditedComment)
         commit('setLoading', false)
         // dispatch('fetchEditedComment', newEditedComment)
         return newEditedComment
@@ -145,12 +141,10 @@ const actions = {
       })
   },
   fetchEditedComment ({ commit, dispatch }, payload) {
-    console.log('fetchEditedComment: ', payload)
     let newComment = payload
     let comment = dispatch('getComments', { id: payload.id })
     Promise.resolve(comment)
       .then(response => {
-        console.log('response: ', response)
         newComment = response.data
         commit(types.SET_EDITED_COMMENT, newComment)
       })
@@ -205,7 +199,6 @@ const mutations = {
     state.filteredArticles = comments
   },
   [types.SET_EDITED_COMMENT] (state, newComment) {
-    console.log('editedComment: ', newComment)
     let articles = state.filteredArticles.map(article => {
       if (article.id === newComment.article) {
         article = newComment

@@ -48,10 +48,10 @@
             <h3 class="title">{{ comment.title }}</h3>
             <template v-if="userInfo !== null && comment.posterId === userInfo.id">
             <v-spacer></v-spacer>
-              <app-edit-comment-dialog
+              <app-articles-comment-edit-dialog
                 :article="article"
                 :comment="comment"
-                @newComment="editedComment"
+                @new-comment="editedComment"
               />
               <v-btn fab accent small @click="onDeleteComment({ aid: article.id, cid: comment.id }, index)">
                 <v-icon medium>delete_forever</v-icon>
@@ -78,10 +78,10 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import editCommentDialog from './EditCommentDialog.vue'
+import ArticlesCommentsEditDialog from './ArticlesCommentsEditDialog.vue'
 
 export default {
-  name: 'Comments',
+  name: 'ArticlesComments',
   props: ['article'],
   data () {
     return {
@@ -119,14 +119,10 @@ export default {
         body: this.newComment.body,
         datetime: new Date()
       }
-      this.$emit('createNewComment', id, commentData)
+      this.$emit('create-new-comment', id, commentData)
     },
     editedComment (data, id) {
-      this.$emit('editComment', data, id)
-      /* this.editComment({ id, editedComment: data })
-        .catch(err => {
-          this.error = err
-        }) */
+      this.$emit('edit-comment', data, id)
     },
     onDeleteComment ({ aid, cid }, index) {
       this.deleteComment({ aid, cid })
@@ -135,7 +131,7 @@ export default {
     }
   },
   components: {
-    appEditCommentDialog: editCommentDialog
+    appArticlesCommentEditDialog: ArticlesCommentsEditDialog
   }
 }
 </script>

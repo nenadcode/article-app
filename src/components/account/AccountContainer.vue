@@ -16,10 +16,11 @@
             <v-toolbar-title>Account Details</v-toolbar-title>
             <template>
               <v-spacer></v-spacer>
-              <app-edit-account-dialog
+              <app-account-edit-dialog
                 :userInfo="userInfo"
                 @changeAccountInfo="changeAccountInfoChild"
-                @save-edited-account="saveEditedAccountChild"></app-edit-account-dialog>
+                @save-edited-account="saveEditedAccountChild"
+              />
             </template>
           </v-toolbar>
           <v-card-text>
@@ -38,10 +39,10 @@
 <script>
 
 import { mapGetters, mapActions } from 'vuex'
-import editAccountDialog from './EditAccountDialog.vue'
+import AccountEditDialog from './AccountEditDialog.vue'
 
 export default {
-  name: 'Account',
+  name: 'AccountContainer',
   data () {
     return {
       errorMessage: false
@@ -70,7 +71,7 @@ export default {
     }
   },
   components: {
-    appEditAccountDialog: editAccountDialog
+    appAccountEditDialog: AccountEditDialog
   }
 }
 </script>

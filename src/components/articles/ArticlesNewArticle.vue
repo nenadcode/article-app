@@ -65,7 +65,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'NewArticle',
+  name: 'ArticlesNewArticle',
   data () {
     return {
       newArticle: {
