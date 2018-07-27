@@ -29,7 +29,7 @@
             <p class="subheading">{{ article.body }}</p>
           </v-card-text>
           <template>
-            <app-articles-comments
+            <app-comments
               :article="article"
               @create-new-comment="createNewCommentChild"
               @edit-comment="editCommentChild"
@@ -60,7 +60,7 @@ import Vue from 'vue'
 import Paginate from 'vuejs-paginate'
 import { mapActions, mapGetters } from 'vuex'
 import ArticlesEditDialog from './ArticlesEditDialog.vue'
-import ArticlesComments from '../comments/ArticlesComments.vue'
+import CommentsContainer from '../comments/CommentsContainer.vue'
 
 Vue.component('paginate', Paginate)
 
@@ -148,7 +148,7 @@ export default {
   },
   components: {
     appArticlesEditDialog: ArticlesEditDialog,
-    appArticlesComments: ArticlesComments
+    appComments: CommentsContainer
   }
 }
 </script>

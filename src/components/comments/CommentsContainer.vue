@@ -48,7 +48,7 @@
             <h3 class="title">{{ comment.title }}</h3>
             <template v-if="userInfo !== null && comment.posterId === userInfo.id">
             <v-spacer></v-spacer>
-              <app-articles-comment-edit-dialog
+              <app-comments-edit-dialog
                 :article="article"
                 :comment="comment"
                 @new-comment="editedComment"
@@ -78,7 +78,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ArticlesCommentsEditDialog from './ArticlesCommentsEditDialog.vue'
+import CommentsEditDialog from './CommentsEditDialog.vue'
 
 export default {
   name: 'ArticlesComments',
@@ -131,7 +131,7 @@ export default {
     }
   },
   components: {
-    appArticlesCommentEditDialog: ArticlesCommentsEditDialog
+    appCommentsEditDialog: CommentsEditDialog
   }
 }
 </script>
