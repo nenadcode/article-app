@@ -60,7 +60,7 @@ import Vue from 'vue'
 import Paginate from 'vuejs-paginate'
 import { mapActions, mapGetters } from 'vuex'
 import ArticlesEditDialog from './ArticlesEditDialog.vue'
-import ArticlesComments from './ArticlesComments.vue'
+import ArticlesComments from '../comments/ArticlesComments.vue'
 
 Vue.component('paginate', Paginate)
 
